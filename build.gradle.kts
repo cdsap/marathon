@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 buildscript {
     repositories {
@@ -30,9 +31,10 @@ configure<DetektExtension> {
     })
 }
 
-apply(plugin = "jacoco")
+
 
 allprojects {
+    apply(plugin = "jacoco")
     group = "com.malinskiy.marathon"
     repositories {
         jcenter()
