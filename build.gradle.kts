@@ -30,11 +30,10 @@ configure<DetektExtension> {
     })
 }
 
+apply(plugin = "jacoco")
+
 allprojects {
     group = "com.malinskiy.marathon"
-    plugins {
-        `jacoco`
-    }
     repositories {
         jcenter()
         mavenCentral()
