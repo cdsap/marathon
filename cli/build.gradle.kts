@@ -10,6 +10,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm")
     id("org.junit.platform.gradle.plugin")
     id("de.fuerstenau.buildconfig") version "1.1.8"
+    jacoco
 }
 
 application {
@@ -76,5 +77,32 @@ fun FiltersExtension.engines(setup: EnginesExtension.() -> Unit) {
     when (this) {
         is ExtensionAware -> extensions.getByType(EnginesExtension::class.java).setup()
         else -> throw IllegalArgumentException("${this::class} must be an instance of ExtensionAware")
+    }
+}
+
+val jacocoTestResultTaskName = "jacocoJunit5TestReport"
+val junitPlatformTest: JavaExec by tasks
+jacoco {
+    toolVersion = "0.8.2"
+    applyTo(junitPlatformTest)
+}
+
+task<JacocoReport>(jacocoTestResultTaskName) {
+    group = LifecycleBasePlugin.VERIFICATION_GROUP
+    description = "Generates code coverage report for the ${junitPlatformTest.name} task."
+
+    executionData(junitPlatformTest)
+    dependsOn(junitPlatformTest)
+
+    //   sourceSets(sourceSets["main"])
+    sourceDirectories = files("src/main/kotlin")
+    classDirectories = files("build/kotlin/main")
+
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
+        csv.isEnabled = true
+        html.destination = File("$buildDir/reports/")
+
     }
 }

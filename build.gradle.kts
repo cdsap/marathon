@@ -13,7 +13,6 @@ buildscript {
     }
 }
 
-
 plugins {
     id("io.gitlab.arturbosch.detekt") version "1.0.0.RC6-4"
 }
@@ -31,10 +30,7 @@ configure<DetektExtension> {
     })
 }
 
-
-
 allprojects {
-    apply(plugin = "jacoco")
     group = "com.malinskiy.marathon"
     repositories {
         jcenter()
